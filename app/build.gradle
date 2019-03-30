@@ -1,0 +1,118 @@
+apply plugin: 'com.android.library'
+apply plugin: 'signing'
+apply plugin: 'maven'
+
+signing {
+    sign configurations.archives
+}
+
+group 'io.unmock'
+version '0.0.0-SNAPSHOT'
+archivesBaseName = 'volley'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'unmock-spring'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'Core functions with which one can build an unmock java integration'
+                url 'http://www.example.com/example-application'
+
+                scm {
+                    connection 'https://github.com/unmock/unmock-spring.git'
+                    developerConnection 'https://github.com/unmock/unmock-spring'
+                    url 'https://github.com/unmock/unmock-spring'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'mikesol'
+                        name 'Mike Solomon'
+                        email 'mike@meeshkan.com'
+                    }
+                }
+            }
+        }
+    }
+}
+
+configurations.all {
+    // Check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 1
+        versionName "0.0.0-SNAPSHOT"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+    }
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.sourceFiles
+}
+
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives androidSourcesJar, javadocJar
+}
+
+dependencies {
+    implementation 'com.android.volley:volley:1.1.1'
+    implementation 'io.unmock:core:0.0.0'
+    implementation 'io.unmock:okhttp:0.0.0-SNAPSHOT'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.robolectric:robolectric:4.2'
+    // https://stackoverflow.com/questions/50705527/volley-1-1-dependency-on-org-apache-http
+    testImplementation "org.apache.httpcomponents:httpclient:4.5.5"
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
