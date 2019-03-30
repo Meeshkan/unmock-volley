@@ -7,7 +7,7 @@ signing {
 }
 
 group 'io.unmock'
-version '0.0.0-SNAPSHOT'
+version '0.0.1-SNAPSHOT'
 archivesBaseName = 'volley'
 
 uploadArchives {
@@ -65,8 +65,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 1
-        versionName "0.0.0-SNAPSHOT"
+        versionCode 2
+        versionName "0.0.1-SNAPSHOT"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -108,7 +108,7 @@ artifacts {
 dependencies {
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'io.unmock:core:0.0.0'
-    implementation 'io.unmock:okhttp:0.0.0-SNAPSHOT'
+    implementation 'io.unmock:okhttp:0.0.0'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.robolectric:robolectric:4.2'
     // https://stackoverflow.com/questions/50705527/volley-1-1-dependency-on-org-apache-http
