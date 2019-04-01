@@ -1,4 +1,4 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.unmock/core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.unmock/core)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.unmock/volley/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.unmock/volley)
 [![CircleCI](https://circleci.com/gh/unmock/unmock-volley.svg?style=svg)](https://circleci.com/gh/unmock/unmock-volley)
 [![Known Vulnerabilities](https://snyk.io/test/github/unmock/unmock-volley/badge.svg?targetFile=build.gradle)](https://snyk.io/test/github/unmock/unmock-volley?targetFile=build.gradle)
 
